@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request, render_template, send_from_directory
 
-__author__ = 'ibininja'
+__author__ = 'troidat.com'
 
 app = Flask(__name__)
 
@@ -16,13 +16,13 @@ def index():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    folder_name = request.form['superhero']
+
     '''
     # this is to verify that folder to upload to exists.
     if os.path.isdir(os.path.join(APP_ROOT, 'files/{}'.format(folder_name))):
         print("folder exist")
     '''
-    target = os.path.join(APP_ROOT, 'files/{}'.format(folder_name))
+    target = os.path.join(APP_ROOT, 'images/')
     print(target)
     if not os.path.isdir(target):
         os.mkdir(target)
@@ -43,7 +43,7 @@ def upload():
         upload.save(destination)
 
     # return send_from_directory("images", filename, as_attachment=True)
-    return render_template("complete.html", image_name=filename)
+    return render_template("complete_display_image.html", image_name=filename)
 
 
 @app.route('/upload/<filename>')
