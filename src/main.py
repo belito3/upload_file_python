@@ -58,7 +58,8 @@ def upload():
 
         for fr in frames:
             frame_list.append(fr)
-            file_objects.append(i)
+            d = {"index":i, "num": 0.11}
+            file_objects.append(d)
             i += 1
 
     return render_template("gallery.html", image_names=file_objects)
