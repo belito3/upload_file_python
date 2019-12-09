@@ -20,7 +20,7 @@
         {% for image_name in image_names %}
         <!-- <div class="col-lg-3 col-md-4 col-xs-6 thumb"> -->
         <div class="col-md-4 thumb">
-            <img class="img-responsive" src=" {{url_for('send_image', filename=image_name.index)}}">
+            <img class="img-responsive" src=" {{url_for('send_image', filename=image_name.id)}}">
             Probality: {{image_name.num}}
         </div>
         {% endfor %}
@@ -28,7 +28,9 @@
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    console.log("aa)
+</script>
 
 </body>
 </html>

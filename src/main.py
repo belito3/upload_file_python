@@ -4,6 +4,7 @@ import io
 from PIL import Image
 import numpy as np
 import cv2
+import uuid
 
 from flask import Flask, request, render_template, send_from_directory, send_file
 
@@ -14,7 +15,7 @@ app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 images_list = {}
-frame_list = []
+frame_list = {}
 
 
 def model_detect(frame):
@@ -30,10 +31,8 @@ def index():
 def upload():
     global frame_list
 
-    frame_list = []
-
     file_objects = []
-    i = 0
+
     print("req file: ", request.files.getlist("file"))
     for file_upload in request.files.getlist("file"):
         print("file_upload: ", file_upload)
@@ -57,18 +56,22 @@ def upload():
         frames = model_detect(frame)
 
         for fr in frames:
-            frame_list.append(fr)
-            d = {"index":i, "num": 0.11}
+            image_id = uuid.uuid4()
+            frame_list[str(image_id)] = fr
+            d = {"id": image_id, "num": 0.11}
             file_objects.append(d)
-            i += 1
 
     return render_template("gallery.html", image_names=file_objects)
 
 
 @app.route('/upload/<filename>')
 def send_image(filename):
+    global frame_list
     # convert numpy array to PIL Image
-    img = Image.fromarray(frame_list[int(filename)].astype('uint8'))
+    image_id = filename
+
+    img = Image.fromarray(frame_list[image_id].astype('uint8'))
+    del frame_list[image_id]
 
     # create file-object in memory
     file_object = io.BytesIO()
